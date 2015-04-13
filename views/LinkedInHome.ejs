@@ -1,0 +1,266 @@
+<!DOCTYPE html> 
+
+<html ng-app="usersApp">
+    <head>
+            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+        
+                 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+                <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+            <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.js"></script>
+            <link href="../static/css/styles.css" rel="stylesheet">
+            <script src='../Scripts/angular-route.js'></script>
+
+            <script src="/angularApp/app.js"></script>
+            <script src="/angularApp/controller/controllers.js"></script>
+
+    </head>
+
+    
+    <body ng-controller="userLoginController">
+    
+        
+          <!-- ============== Log user out when user lands on home page via browser back button ================-->
+            <input type="hidden" id="refresh" value="no">
+        
+        <script>
+                $(document).ready(function(e) {
+                        //reload the window on back button 
+                            if ($("#refresh").val() == 'yes') 
+                            { 
+                                    $.ajax({
+                                        type: 'GET',
+                                        url : 'http://localhost:3000/logout',
+                                        contentType: 'text/html; charset=utf-8',
+                                        success: function(data, status){
+                                            console.log(data + " " + status);
+                                        },
+                                        error: function(status){
+                                             console.log(status);
+                                        }
+                                    })   
+
+                                    location.reload;
+                            }
+                                                       
+                            else 
+                            { 
+                               $('#refresh').val('yes'); 
+                            }
+                });
+        
+        </script>
+        
+    <!-- ===========================================================================================================-->
+
+    
+          <img alt="full screen background image" src="images/New-York3.jpg" id="full-screen-background-image" /> 
+        
+      
+        
+                   <!--NAVIGATION CONTROLS-->
+          <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+     
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">IN</a>
+                <!--<img src="connectme.png" class="pull-left" id="brandimg"/>-->
+                <form class="navbar-form navbar-left" role="search" id="searchbar">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Jobs, People">
+                    </div>
+                        <a href="#" class="glyphicon glyphicon-search"><strong>Search</strong></a>
+                </form>
+                    <ul class="nav nav-pills pull-right">
+                           <li><a href="#">Home</a></li>
+                           <li><a href class="active glyphicon glyphicon-user" ng-click="switchToUser()">User</a></li>
+                           <li><a href class="glyphicon glyphicon-cloud" ng-click="switchToCompany()">Company</a></li>
+                    </ul>
+                
+                <!--<p class ="navbar-text pull-right">
+                    <a href="#" class="navbar-link"</a>
+                </p>-->
+            </div>
+        </nav>
+          
+        <div class="col-sm-4 col-sm-offset-3" ng-show="goReg" id="homeFormContainer">
+
+                <h1><span class="glyphicon glyphicon-user"></span> Signup</h1>
+
+                <!-- show any messages that come back with authentication -->
+             
+                <% if(message != undefined) { %>
+                    <% if (message.length > 0) { %>
+                        <div class="alert alert-danger"><%= message %></div>
+                    <% } %>
+                <% } %>
+                <!-- LOGIN FORM -->
+                <form action="/signup/user" method="post" name="myform" novalidate>
+
+
+                <div class="form-group">
+                    <input type="text" class="form-control" name="firstname" ng-model="newUser.firstname" placeholder="Firstname" required>
+                      <span style="color:red" ng-show="myform.firstname.$dirty && myform.firstname.$invalid">
+                        <span ng-show="myform.firstname.$error.required">*</span>
+                      </span>
+                </div>
+                <div class="form-group">
+                        <input type="text" class="form-control" name="lastname" ng-model="newUser.lastname" placeholder="Lastname" required>
+                        <span style="color:red" ng-show="myform.lastname.$dirty && myform.lastname.$invalid">
+                            <span ng-show="myform.lastname.$error.required">*</span>
+                        </span>
+                </div>
+                <div class="form-group">
+                        <input type="email" class="form-control" name="email" ng-model="newUser.email" placeholder="Email" required>
+                        <span style="color:red" ng-show="myform.email.$dirty && myform.email.$invalid">
+                        <span ng-show="myform.email.$error.required">Email is required.</span>
+                        <span ng-show="myform.email.$error.email">Invalid email address.</span>
+                        </span>
+                </div>
+                <div class="form-group">
+
+                        <input type="password" class="form-control" name="password" ng-model="newUser.password" placeholder="Password" required>
+                        <span style="color:red" ng-show="myform.password.$dirty && myform.password.$invalid">
+                        <span ng-show="myform.password.$error.required">Password is required.</span>
+                        </span>
+                </div>
+
+                    <button type="submit" class="btn btn-warning btn-xs btn-block" ng-disabled="myform.firstname.$dirty && myform.firstname.$invalid || myform.firstname.$error.required || myform.lastname.$dirty &&myform.lastname.$invalid || myform.lastname.$error.required || myform.email.$dirty && myform.email.$invalid && myform.email.$error.required || myform.password.$dirty && myform.password.$invalid">Signup</button>
+                </form>
+
+                <hr>
+
+                <p>Already have an account? <a href ng-click="goLogIn()">Login</a></p>
+                <p>Or go <a href="/">home</a>.</p>
+
+        </div>
+
+        
+ 
+            <div class="col-sm-4 col-sm-offset-3" ng-show="goLogin" id="homeFormContainer">
+
+                    <h1><span class="glyphicon glyphicon-user"></span> Login</h1>
+
+                      <% if(message != undefined) { %>
+                        <% if (message.length > 0) { %>
+                            <div class="alert alert-danger"><%= message %></div>
+                        <% } %>
+                    <% } %>
+
+
+                    <!-- LOGIN FORM -->
+                    <form method="post" action="/login/user" name = "myform" novalidate>
+
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" ng-model="existingUser.email" placeholder="Email" required>
+                            <span style="color:red" ng-show="myform.email.$dirty && myform.email.$invalid">
+                             <span ng-show="myform.email.$error.required">Email is required.</span>
+                             <span ng-show="myform.email.$error.email">Invalid email address.</span>
+                            </span>
+                        </div>
+                        <div class="form-group">
+
+                            <input type="password" class="form-control" name="password" ng-model="existingUser.password" placeholder="Password" required>
+                            <span style="color:red" ng-show="myform.password.$dirty && myform.password.$invalid">
+                            <span ng-show="myform.password.$error.required">Password is required.</span>
+                            </span>
+                        </div>
+
+                        <p><button type="submit" class="btn btn-info btn-xs btn-block" ng-disabled="myform.email.$dirty && myform.email.$invalid && myform.email.$error.required" && myform.password.$error.required || myform.password.$dirty>Login</button></p>
+                    </form>
+
+                    <hr>
+
+                    <p>Need an account? <a href ng-click="goRegister()">Signup</a></p>
+                    <p>Or go <a href="/">home</a>.</p>
+
+            </div>
+        
+            <div class="col-sm-4 col-sm-offset-3" ng-show="goComReg" id="homeFormContainer">
+                    
+                    <h1><span class="glyphicon glyphicon-cloud"></span> Signup</h1>
+
+                    <!-- show any messages that come back with authentication -->
+                    <% if (message.length > 0) { %>
+                        <div class="alert alert-danger"><%= message %></div>
+                    <% } %>
+
+                    <!-- LOGIN FORM -->
+                    <form action="/signup/company" method="post" name="myform" novalidate>
+
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="newCompany.company" name="companyname" placeholder="company name" required>
+                            <span style="color:red" ng-show="myform.companyname.$dirty && myform.companyname.$invalid">
+                            <span ng-show="myform.companyname.$error.required">*</span>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            
+                            <input type="email" class="form-control" ng-model="newCompany.email" name="email" placeholder="email" required>
+                            <span style="color:red" ng-show="myform.email.$dirty && myform.email.$invalid">
+                            <span ng-show="myform.email.$error.required">Email is required.</span>
+                            <span ng-show="myform.email.$error.email">Invalid email address.</span>
+                            </span>
+                        </div>
+                        <div class="form-group">
+
+                            <input type="password" class="form-control" ng-model="newCompany.password" name="password" placeholder="password" required>
+                            <span style="color:red" ng-show="myform.password.$dirty && myform.password.$invalid">
+                            <span ng-show="myform.password.$error.required">Password is required.</span>
+                            </span>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning btn-xs btn-block" ng-disabled="myform.companyname.$dirty && myform.companyname.$invalid || myform.companyname.$error.required || myform.email.$dirty && myform.email.$invalid && myform.email.$error.required || myform.password.$dirty && myform.password.$invalid">Signup</button>
+                    </form>
+
+                    <hr>
+
+                    <p>Already have an account? <a href ng-click="goCompanyLogIn()">Login</a></p>
+                    <p>Or go <a href="/">home</a>.</p>
+            </div>
+        
+             
+            <div class="col-sm-4 col-sm-offset-3" ng-show="goCompanyLogin" id="homeFormContainer">
+
+                    <h1><span class="glyphicon glyphicon-cloud"></span> Login</h1>
+
+                      <% if(message != undefined) { %>
+                        <% if (message.length > 0) { %>
+                            <div class="alert alert-danger"><%= message %></div>
+                        <% } %>
+                    <% } %>
+
+
+                    <!-- LOGIN FORM -->
+                    <form method="post" action="/login/company" name="myform" novalidate>
+
+                        <div class="form-group">
+
+                            <input type="email" class="form-control" name="email" ng-model="existingCompany.email" placeholder="Email" required>
+                            <span style="color:red" ng-show="myform.email.$dirty && myform.email.$invalid">
+                            <span ng-show="myform.email.$error.required">Email is required.</span>
+                            <span ng-show="myform.email.$error.email">Invalid email address.</span>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" ng-model="existingCompany.password" placeholder="Password" required>
+                            <span style="color:red" ng-show="myform.password.$dirty && myform.password.$invalid">
+                            <span ng-show="myform.password.$error.required">Password is required.</span>
+                            </span>
+                        </div>
+
+                        <p><button type="submit" class="btn btn-info btn-xs btn-block" ng-disabled="myform.email.$dirty && myform.email.$invalid && myform.email.$error.required" && myform.password.$error.required || myform.password.$dirty>Login</button>
+</p>
+                    </form>
+
+                    <hr>
+
+                    <p>Need an account? <a href ng-click="goCompanyReg()">Signup</a></p>
+                    <p>Or go <a href="/">home</a>.</p>
+
+            </div>
+            
+    </body>
+    
+</html>

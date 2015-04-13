@@ -1,0 +1,84 @@
+<div class="home views">
+    <div class="container">
+    	<div>
+    		<header>
+    			<h3>Posts</h3>
+    		</header>
+    		<br />
+    		<div>
+    			<div class="posts" data-ng-repeat="user in users track by user.UserId">
+    			{{user.FirstName + ' ' + user.LastName}}
+    			<br />
+    			{{user.Posts}}
+    			</div>
+    		</div>
+    	</div>
+        <header>
+            <h3>Users Following</h3>
+        </header>
+        <br /><br />
+        <div>
+            <div class="row cardContainer">
+                <div class="span3 card" data-ng-repeat="user in users track by user.UserId" >
+                    <div class="cardHeader">{{user.FirstName + ' ' + user.LastName}}</div>
+                    <a href="#/profile/{{user.UserId}}" class="cardBody btn-link">View Profile</a>
+                </div>
+            </div>
+        </div>
+        <header>
+            <h3>Companies Following</h3>
+        </header>
+        <br /><br />
+        <div>
+            <div class="row cardContainer">
+                <div class="span3 card" data-ng-repeat="company in companies track by company.CompanyId" >
+                    <div class="cardHeader">{{company.CompanyName}}</div>
+                    <a href="#/profile/{{company.CompanyId}}" class="cardBody btn-link">View Company Page</a>
+                </div>
+            </div>
+        </div>
+        <div>
+    		<header>
+    			<h3>Job Posts</h3>
+    		</header>
+    		<br />
+    		<div>
+    			<div class="postsContainer" data-ng-repeat="post in jobposts track by post._id">
+    			{{post.CompanyName}}
+    			<br />
+    			{{post.JobName}}
+    			<br />
+    			{{post.JobDescription}}
+    			</div>
+    		</div>
+    	</div>
+    </div>
+</div><!-- views/home.ejs -->
+<!doctype html>
+<html>
+<head>
+	<title>Welcome!</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+	<style>
+		body 		{ padding-top:80px; }
+	</style>
+</head>
+<body>
+<div class="container">
+
+	<div class="jumbotron text-center">
+		<h1><span class="fa fa-lock"></span>Welcome!</h1>
+
+		<p>Login or Register</p>
+
+		<a href="/login/user" class="btn btn-default"><span class="fa fa-user"></span> User Login</a>
+		<a href="/signup/user" class="btn btn-default"><span class="fa fa-user"></span> User Signup</a>
+        
+        <a href="/login/company" class="btn btn-default"><span class="fa fa-user"></span> Company Login</a>
+		<a href="/signup/company" class="btn btn-default"><span class="fa fa-user"></span> Company Signup</a>
+	</div>
+
+</div>
+</body>
+</html>

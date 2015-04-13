@@ -1,0 +1,98 @@
+
+              <div class="container">
+            <div class = "row">
+                <div class = "col-sm-6">
+            
+                        <div class="panel panel-info" id="panel">
+                        
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-8">
+                                    <h2><p class="text-uppercase"><strong>{{profile.FirstName + ' ' + profile.LastName}}</strong></p></h2>
+                                    <p>{{status}}</p>
+                                    <div class="row">
+                                        <div class="col-xs-6"><h4><small>{{profile.Address}}</small></h4></div>  
+                                        <div class="col-xs-6"><h4><small>{{profile.Country}}</small></h4></div>
+                                    </div>
+                                    <div class="row">
+                                    	Education:
+                                    	<br />
+                                        <div class="col-xs-6"><h4><small>University: {{profile.Education.School}}</small></h4></div> 
+                                         <div class="col-xs-6"><h4><small>Degree: {{profile.Education.Degree}}</small></h4></div> 
+                                        <div class="col-xs-6"><h4><small>Major: {{profile.Education.Field}}</small></h4></div> 
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-4">
+                                    <img src="../images/gravatar.jpg" alt="" class="center-block img-circle img-responsive">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+          
+            <div class="container" id="content">
+                <div class="row" id="innercontent">
+                        <p class="lead" >Summary</p>
+                        {{profile.Bio}}
+                </div>
+            </div>
+            
+            <div class="container" id="seperator"></div>
+          
+            <div class="container" id="content">
+                <div class="row" id="innercontent">
+                    <p class="lead" >Experience</p>
+                    Company Name: {{profile.Company.Name}}
+                    Description:{{profile.Company.Description}}
+                    Title:{{profile.Company.Title}}
+                </div>
+            </div>
+          
+              <div class="container" id="seperator"></div>
+          
+            <div class="container" id="content">
+                <div class="row" id="innercontent">
+                    <p class="lead" >Projects</p>
+                    {{profile.Project}}
+                </div>
+            </div>
+          
+          <div class="container" id="seperator"></div>
+          
+            <div class="container" id="content">
+                <div class="row" id="innercontent">
+                    <p class="lead" >Skills</p>
+                            <p>
+                                <span class="label label-info tags">html5</span> 
+                                <span class="label label-info tags">css3</span>
+                                <span class="label label-info tags">jquery</span>
+                                <span class="label label-info tags">bootstrap3</span>
+                            </p>
+                </div>
+            </div>
+          
+               <div class="container" id="seperator"></div>
+          
+            <div class="container" id="content">
+                <div class="row" id="innercontent">
+                    <p class="lead" >Personal Details</p>
+                        <p>Birthdate: </p>
+                        <p>Others: </p>
+                </div>
+            </div>
+          
+                <div class="container" id="seperator"></div>
+          
+                        <div class="container" id="seperator"></div>
+
+      </div><!-- top container-->  
+        
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  </body>
